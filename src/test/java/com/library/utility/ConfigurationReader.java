@@ -7,7 +7,7 @@ import java.util.Properties;
 public class ConfigurationReader {
     // 1- Create properties object
     // we make this private to be inaccessible from outside
-    // make static because static runs first and before everything else and
+    // make static because static runs first and before everything else, and
     // we will use this object under static method
     private static Properties properties = new Properties();
     

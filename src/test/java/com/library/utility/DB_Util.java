@@ -95,28 +95,6 @@ public class DB_Util {
         
     }
     
-    // find out the row count
-    
-    /**
-     * find out the row count
-     * @return row count of this ResultSet
-     */
-    public static int getRowCount(){
-        
-        int rowCount = 0 ;
-        try {
-            rs.last() ;
-            rowCount = rs.getRow() ;
-        } catch (Exception e) {
-            System.out.println("ERROR OCCURRED WHILE GETTING ROW COUNT " + e.getMessage() );
-        }finally {
-            resetCursor();
-        }
-        
-        return rowCount ;
-        
-    }
-    
     
     /**
      * find out the column count
@@ -136,63 +114,6 @@ public class DB_Util {
         return columnCount ;
         
     }
-    
-    
-    
-    /**
-     * // Get all the Column names into a list object
-     * @return  List<String>
-     */
-    public static List<String> getAllColumnNamesAsList(){
-        
-        List<String> columnNameLst = new ArrayList<>();
-        
-        try {
-            for (int colIndex = 1; colIndex <= getColumnCount() ; colIndex++) {
-                String columnName =  rsmd.getColumnName(colIndex) ;
-                columnNameLst.add(columnName) ;
-            }
-        }catch (Exception e){
-            System.out.println("ERROR OCCURRED WHILE getAllColumnNamesAsList "+ e.getMessage());
-        }
-        
-        return columnNameLst ;
-        
-    }
-    
-    // get entire row of data according to row number
-    
-    /**
-     * Getting entire row of data in a List of String
-     * @param rowNum row number to get as a list
-     * @return row data as List of String
-     */
-    public static List<String> getRowDataAsList( int rowNum ){
-        
-        List<String> rowDataAsLst = new ArrayList<>();
-        int colCount =  getColumnCount() ;
-        
-        try {
-            rs.absolute( rowNum );
-            
-            for (int colIndex = 1; colIndex <= colCount ; colIndex++) {
-                
-                String cellValue =  rs.getString( colIndex ) ;
-                rowDataAsLst.add(   cellValue  ) ;
-                
-            }
-            
-            
-        } catch (Exception e) {
-            System.out.println("ERROR OCCURRED WHILE getRowDataAsList " + e.getMessage() );
-        }finally {
-            resetCursor();
-        }
-        
-        
-        return rowDataAsLst ;
-    }
-    
     
     
     /**
@@ -218,28 +139,7 @@ public class DB_Util {
         
     }
     
-    /**
-     * getting the cell value according to row num and column name
-     * @param rowNum  row number to get the data from
-     * @param columnName column Name to get the data from
-     * @return the value in String at that location
-     */
-    public static String getCellValue(int rowNum ,String columnName){
-        
-        String cellValue = "" ;
-        
-        try {
-            rs.absolute(rowNum) ;
-            cellValue = rs.getString( columnName ) ;
-            
-        } catch (Exception e) {
-            System.out.println("ERROR OCCURRED WHILE getCellValue " + e.getMessage() );
-        }finally {
-            resetCursor();
-        }
-        return cellValue ;
-        
-    }
+   
     
     
     /**
@@ -251,92 +151,6 @@ public class DB_Util {
         
     }
     
-    //
-    
-    /**
-     * getting entire column data as list according to column number
-     * @param columnNum column number to get all data
-     * @return List object that contains all rows of that column
-     */
-    public static List<String> getColumnDataAsList(int columnNum){
-        
-        List<String> columnDataLst = new ArrayList<>();
-        
-        try {
-            rs.beforeFirst(); // make sure the cursor is at before first location
-            while( rs.next() ){
-                
-                String cellValue = rs.getString(columnNum) ;
-                columnDataLst.add(cellValue) ;
-            }
-            
-        } catch (Exception e) {
-            System.out.println("ERROR OCCURRED WHILE getColumnDataAsList " + e.getMessage() );
-        }finally {
-            resetCursor();
-        }
-        
-        
-        return columnDataLst ;
-        
-    }
-    
-    /**
-     * getting entire column data as list according to column Name
-     * @param columnName column name to get all data
-     * @return List object that contains all rows of that column
-     */
-    public static List<String> getColumnDataAsList(String columnName){
-        
-        List<String> columnDataLst = new ArrayList<>();
-        
-        try {
-            rs.beforeFirst(); // make sure the cursor is at before first location
-            while( rs.next() ){
-                
-                String cellValue = rs.getString(columnName) ;
-                columnDataLst.add(cellValue) ;
-            }
-            
-        } catch (Exception e) {
-            System.out.println("ERROR OCCURRED WHILE getColumnDataAsList " + e.getMessage() );
-        }finally {
-            resetCursor();
-        }
-        
-        
-        return columnDataLst ;
-        
-    }
-    
-    
-    /**
-     * display all data from the ResultSet Object
-     */
-    public static void  displayAllData(){
-        
-        int columnCount = getColumnCount() ;
-        resetCursor();
-        try{
-            
-            while(rs.next()){
-                
-                for (int colIndex = 1; colIndex <= columnCount; colIndex++) {
-                    
-                    //System.out.print( rs.getString(colIndex) + "\t" );
-                    System.out.printf("%-25s", rs.getString(colIndex));
-                }
-                System.out.println();
-                
-            }
-            
-        }catch(Exception e){
-            System.out.println("ERROR OCCURRED WHILE displayAllData " + e.getMessage() );
-        }finally {
-            resetCursor();
-        }
-        
-    }
     
     /**
      * Save entire row data as Map<String,String>
@@ -369,27 +183,5 @@ public class DB_Util {
         
         return rowMap ;
     }
-    /**
-     * We know how to store one row as map object
-     * Now Store All rows as List of Map object
-     * @return List of Map object that contain each row data as Map<String,String>
-     */
-    public static List<Map<String,Object>> getAllRowAsListOfMap(){
-        
-        List<Map<String,Object>> allRowLstOfMap = new ArrayList<>();
-        int rowCount = getRowCount() ;
-        // move from first row till last row
-        // get each row as map object and add it to the list
-        
-        for (int rowIndex = 1; rowIndex <= rowCount ; rowIndex++) {
-            
-            Map<String,Object> rowMap = getRowMap(rowIndex);
-            allRowLstOfMap.add( rowMap ) ;
-            
-        }
-        resetCursor();
-        
-        return allRowLstOfMap ;
-        
-    }
+    
 }
